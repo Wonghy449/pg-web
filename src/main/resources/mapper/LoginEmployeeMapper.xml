@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pixel.pgback.mapper.LoginEmployeeMapper">
+    <resultMap id="BaseResultMap" type="com.pixel.pgback.entity.LoginEmployee">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="employee_id" jdbcType="INTEGER" property="employeeId"/>
+        <result column="work_no" jdbcType="VARCHAR" property="workNo"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+    </resultMap>
+    <insert id="insertSelective" parameterType="com.pixel.pgback.entity.LoginEmployee">
+        insert into login_employee
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="employeeId != null">
+                employee_id,
+            </if>
+            <if test="workNo != null">
+                work_no,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="employeeId != null">
+                #{employeeId,jdbcType=INTEGER},
+            </if>
+            <if test="workNo != null">
+                #{workNo,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="selectCountByEmployeeId" resultType="java.lang.Integer">
+    select count(id) from login_employee where employee_id=#{employeeId}
+    </select>
+    <select id="selectLogin" resultType="java.util.Map">
+        select l.id, e.identity from login_employee l left join interviewer e on l.employee_id = e.id
+        where l.password=#{password} and (l.work_no=#{username} or l.email=#{username})
+    </select>
+    <select id="selectEmployeeIdByUsername" resultType="java.lang.Integer">
+        select employee_id from login_employee where work_no = #{username} or email = #{username}
+    </select>
+</mapper>

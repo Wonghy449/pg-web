@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pixel.pgback.mapper.CandidateSelectedTimeMapper">
+    <resultMap id="BaseResultMap" type="com.pixel.pgback.entity.CandidateSelectedTime">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="candidate_id" jdbcType="INTEGER" property="candidateId"/>
+        <result column="selected_time" jdbcType="VARCHAR" property="selectedTime"/>
+    </resultMap>
+    <insert id="insertSelective" parameterType="com.pixel.pgback.entity.CandidateSelectedTime">
+        insert into candidate_selected_time
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="candidateId != null">
+                candidate_id,
+            </if>
+            <if test="selectedTime != null">
+                selected_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="candidateId != null">
+                #{candidateId,jdbcType=INTEGER},
+            </if>
+            <if test="selectedTime != null">
+                #{selectedTime,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <insert id="insertTimes">
+        insert into candidate_selected_time (candidate_id, selected_time, interview_type) values
+        <foreach collection="times" index="index" item="time" separator=",">
+            ((select user_id from login where username=#{username}), #{time}, #{interviewType})
+        </foreach>
+    </insert>
+    <insert id="batchInsert"></insert>
+</mapper>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pixel.pgback.mapper.CandidateMapper">
+    <resultMap id="BaseResultMap" type="com.pixel.pgback.entity.Candidate">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="gender" jdbcType="VARCHAR" property="gender"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="phone_no" jdbcType="VARCHAR" property="phoneNo"/>
+        <result column="institution" jdbcType="VARCHAR" property="institution"/>
+        <result column="degree" jdbcType="VARCHAR" property="degree"/>
+        <result column="major" jdbcType="VARCHAR" property="major"/>
+        <result column="graduation_time" jdbcType="DATE" property="graduationTime"/>
+        <result column="application_date" jdbcType="DATE" property="applicationDate"/>
+        <result column="expected_work_city" jdbcType="VARCHAR" property="expectedWorkCity"/>
+        <result column="first_choice" jdbcType="VARCHAR" property="firstChoice"/>
+        <result column="second_choice" jdbcType="VARCHAR" property="secondChoice"/>
+        <result column="CV" jdbcType="VARCHAR" property="cv"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="interview_area" jdbcType="VARCHAR" property="interviewArea"/>
+        <result column="expected_interview_city" jdbcType="VARCHAR" property="expectedInterviewCity"/>
+        <result column="position_id" jdbcType="VARCHAR" property="positionId"/>
+        <result column="function" jdbcType="VARCHAR" property="function"/>
+        <result column="early_join_date" jdbcType="DATE" property="earlyJoinDate"/>
+    </resultMap>
+    <insert id="batchInsert" parameterType="list">
+        insert into candidate (name, gender, email, phone_no, institution, degree, major, graduation_time,
+        application_date, expected_work_city, first_choice, second_choice, expected_interview_city, position_id,
+        function, early_join_date)
+        values
+        <foreach collection="list" separator="," item="record">
+            (#{record.name},#{record.gender},#{record.email},#{record.phoneNo},#{record.institution},#{record.degree},
+            #{record.major},#{record.graduationTime},#{record.applicationDate},#{record.expectedWorkCity},#{record.firstChoice},
+            #{record.secondChoice},#{record.expectedInterviewCity},#{record.positionId},#{record.function},#{record.earlyJoinDate})
+        </foreach>
+    </insert>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        select *
+        from candidate
+        where id = #{id}
+    </select>
+    <select id="selectRegister" resultType="java.lang.Integer">
+        select id
+        from candidate
+        where email = #{email} and phone_no = #{phone}
+    </select>
+    <select id="selectStatus" resultType="java.lang.String">
+        select c.status
+        from login_candidate l left join candidate c on l.candidate_id = c.id
+        where l.username = #{username}
+    </select>
+</mapper>

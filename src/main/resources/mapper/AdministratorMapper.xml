@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pixel.pgback.mapper.AdministratorMapper">
+    <resultMap id="BaseResultMap" type="com.pixel.pgback.entity.Administrator">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="first_name" jdbcType="VARCHAR" property="firstName"/>
+        <result column="last_name" jdbcType="VARCHAR" property="lastName"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="privilege" jdbcType="VARCHAR" property="privilege"/>
+    </resultMap>
+    <select id="selectRegister" resultType="com.pixel.pgback.entity.Administrator">
+        select *
+        from administrator
+        where email = #{email}
+    </select>
+</mapper>

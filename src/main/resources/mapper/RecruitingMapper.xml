@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pixel.pgback.mapper.RecruitingMapper">
+    <resultMap id="BaseResultMap" type="com.pixel.pgback.entity.Recruiting">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="first_name" jdbcType="VARCHAR" property="firstName"/>
+        <result column="last_name" jdbcType="VARCHAR" property="lastName"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="city" jdbcType="VARCHAR" property="city"/>
+    </resultMap>
+    <insert id="batchInsert" parameterType="list">
+        insert into recruiting (first_name, last_name, city, email)
+        values
+        <foreach collection="list" separator="," item="record">
+            (#{record.firstName},#{record.lastName},#{record.city},#{record.email})
+        </foreach>
+    </insert>
+    <select id="selectRegister" resultType="com.pixel.pgback.entity.Recruiting">
+        select *
+        from recruiting
+        where email = #{email}
+    </select>
+
+</mapper>

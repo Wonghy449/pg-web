@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pixel.pgback.mapper.LoginCandidateMapper">
+    <resultMap id="BaseResultMap" type="com.pixel.pgback.entity.LoginCandidate">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="candidate_id" jdbcType="INTEGER" property="candidateId"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+    </resultMap>
+    <insert id="insertSelective" parameterType="com.pixel.pgback.entity.LoginCandidate">
+        insert into login_candidate
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="candidateId != null">
+                candidate_id,
+            </if>
+            <if test="username != null">
+                username,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="candidateId != null">
+                #{candidateId,jdbcType=INTEGER},
+            </if>
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="selectCountByCandidateId" resultType="java.lang.Integer">
+      select count(id) from login_candidate  where candidate_id=#{candidateId}
+    </select>
+    <select id="selectLogin" resultType="java.lang.Integer">
+        select id from login_candidate where username=#{username} and password=#{password}
+    </select>
+</mapper>

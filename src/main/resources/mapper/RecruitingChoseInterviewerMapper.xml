@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pixel.pgback.mapper.RecruitingChoseInterviewerMapper">
+    <resultMap id="BaseResultMap" type="com.pixel.pgback.entity.RecruitingChoseInterviewer">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="interviewer_id" jdbcType="INTEGER" property="interviewerId"/>
+        <result column="interview_area" jdbcType="VARCHAR" property="interviewArea"/>
+    </resultMap>
+    <insert id="insertSelective" parameterType="com.pixel.pgback.entity.RecruitingChoseInterviewer">
+        insert into recruiting_chose_interviewer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="interviewerId != null">
+                interviewer_id,
+            </if>
+            <if test="interviewArea != null">
+                interview_area,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="interviewerId != null">
+                #{interviewerId,jdbcType=INTEGER},
+            </if>
+            <if test="interviewArea != null">
+                #{interviewArea,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <insert id="insertBatch">
+        insert into recruiting_chose_interviewer (interviewer_id, interview_area) values
+        <foreach collection="list" index="index" item="record" separator=",">
+            (#{record.interviewerId}, #{record.interviewArea})
+        </foreach>
+    </insert>
+    <select id="selectIdsByArea" resultType="java.lang.Integer">
+        select interviewer_id from recruiting_chose_interviewer where interview_area = #{area}
+    </select>
+</mapper>

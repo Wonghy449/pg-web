@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pixel.pgback.mapper.ContributionMapper">
+    <resultMap id="BaseResultMap" type="com.pixel.pgback.entity.Contribution">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="interviewer_id" jdbcType="INTEGER" property="interviewerId"/>
+        <result column="interview_area" jdbcType="VARCHAR" property="interviewArea"/>
+        <result column="contribution_days" jdbcType="INTEGER" property="contributionDays"/>
+        <result column="interviewee_id" jdbcType="INTEGER" property="intervieweeId"/>
+    </resultMap>
+    <insert id="insertSelective" parameterType="com.pixel.pgback.entity.Contribution">
+        insert into contribution
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="interviewerId != null">
+                interviewer_id,
+            </if>
+            <if test="interviewArea != null">
+                interview_area,
+            </if>
+            <if test="contributionDays != null">
+                contribution_days,
+            </if>
+            <if test="intervieweeId != null">
+                interviewee_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="interviewerId != null">
+                #{interviewerId,jdbcType=INTEGER},
+            </if>
+            <if test="interviewArea != null">
+                #{interviewArea,jdbcType=VARCHAR},
+            </if>
+            <if test="contributionDays != null">
+                #{contributionDays,jdbcType=INTEGER},
+            </if>
+            <if test="intervieweeId != null">
+                #{intervieweeId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+</mapper>
